@@ -1,6 +1,6 @@
 # deen.shahadmahmud.com
 
-Machine-translated (Gemini) Bangla reading pages for classical Arabic books from [Turath](https://app.turath.io/). Built with [Astro](https://astro.build), deployed on Cloudflare Pages on every merge to `main`.
+Machine-translated (Gemini) Bangla reading pages for classical Arabic books from [Turath](https://app.turath.io/). Built with [Astro](https://astro.build), deployed as a static Cloudflare Worker on every merge to `main`.
 
 ```
 content/<book_id>/
@@ -20,12 +20,12 @@ scripts/fetch.py
 3. Check locally: `npm test && npm run build` (or `npm run dev` to read it at http://localhost:4321).
 4. Open a PR. Cloudflare posts a preview link on the PR; merge to publish.
 
-## Cloudflare Pages setup (once)
+## Cloudflare setup (once)
 
-Dashboard → Workers & Pages → Create → Pages → Connect to Git → pick this repo.
+Dashboard → Workers & Pages → Create → Import a repository → pick this repo.
 
-- Production branch: `main`
-- Framework preset: Astro · Build command: `npm run build` · Output directory: `dist`
-- Node version comes from `.node-version`.
+- Production branch: `main` · Build command: `npm run build` · Deploy command: `npx wrangler deploy`
+- `wrangler.jsonc` makes the deploy upload `dist/` as static assets (no Worker code). Without it, wrangler auto-adds an SSR adapter and the build fails.
+- Node version comes from `.node-version`. For PR preview links, enable non-production branch builds in the Worker's Build settings.
 
-Then project → Custom domains → add `deen.shahadmahmud.com`.
+Then Worker → Settings → Domains & Routes → Add → Custom domain → `deen.shahadmahmud.com`.
