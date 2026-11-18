@@ -1,0 +1,14 @@
+---
+// compact: one-line banner for reading pages; full text is one tap away.
+interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
+const full = "Google Gemini দিয়ে স্বয়ংক্রিয়ভাবে অনূদিত, কোনো আলেম বা অনুবাদক যাচাই করেননি। ভুল থাকতে পারে, বিশেষ করে আকীদা, ফিকহ ও হাদীসের শব্দে। মূল আরবি পাঠই নির্ভরযোগ্য; কোনো বিধানের ব্যাপারে নির্ভরযোগ্য আলেমকে জিজ্ঞেস করুন।";
+---
+{compact ? (
+  <details class="warn compact" role="note">
+    <summary><strong>⚠️ মেশিন (এআই) অনুবাদ</strong> · যাচাইকৃত নয়, ভুল থাকতে পারে <span class="more">বিস্তারিত</span></summary>
+    <p>{full}</p>
+  </details>
+) : (
+  <div class="warn" role="note"><strong>⚠️ সতর্কতা: এটি মেশিন (এআই) অনুবাদ।</strong> {full}</div>
+)}

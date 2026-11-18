@@ -1,0 +1,28 @@
+// Tiny markdown subset used by both ar/*.txt and bn/*.md: blank-line paragraphs,
+// "#".."######" headings (all rendered as h2), "> " quotes, **bold**, *italic*. Everything is HTML-escaped first.
+const ESC: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
+const escape = (s: string) => s.replace(/[&<>"']/g, (c) => ESC[c]);
+
+export function renderBlocks(text: string): string {
+  return text
+    .trim()
+    .split(/\n\s*\n/)
+    .map((b) => b.trim())
+    .filter(Boolean)
+    .map((block) => {
+      let tag = "p";
+      let body = block;
+      const heading = block.match(/^#{1,6}\s+([\s\S]*)$/);
+      if (heading) [tag, body] = ["h2", heading[1].replace(/^\*\*(.*)\*\*$/, "$1")];
+      else if (block.startsWith(">")) [tag, body] = ["blockquote", block.replace(/^>[ \t]?/gm, "")];
+      body = escape(body)
+        .replace(/\n/g, "<br>")
+        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\*(.+?)\*/g, "<em>$1</em>");
+      return `<${tag}>${body}</${tag}>`;
+    })
+    .join("\n");
+}
+
+const BN = "০১২৩৪৫৬৭৮৯";
+export const bnNum = (n: number | string) => String(n).replace(/\d/g, (d) => BN[+d]);

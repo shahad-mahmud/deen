@@ -1,0 +1,57 @@
+---
+// Chapter view: all of a chapter's page segments in one continuous scroll, with page markers.
+import Base from "../../../layouts/Base.astro";
+import MtWarning from "../../../components/MtWarning.astro";
+import Pager from "../../../components/Pager.astro";
+import ArToggle from "../../../components/ArToggle.astro";
+import { loadBooks, type Book } from "../../../lib/books";
+import type { Chapter } from "../../../lib/chapters";
+import { bnNum, renderBlocks } from "../../../lib/render";
+
+export function getStaticPaths() {
+  return loadBooks().flatMap((book) =>
+    book.chapters.map((chapter) => ({ params: { book: String(book.id), ch: String(chapter.no) }, props: { book, chapter } })),
+  );
+}
+
+const { book, chapter } = Astro.props as { book: Book; chapter: Chapter };
+const base = `/${book.id}`;
+const total = book.chapters.length;
+const title = chapter.title_bn ?? chapter.title_ar;
+const pages = chapter.segments.map((s) => s.page);
+const printed = (n: number) => book.printed_pages[n - 1];
+const pager = {
+  prev: chapter.no > 1 ? `${base}/ch/${chapter.no - 1}/` : undefined,
+  next: chapter.no < total ? `${base}/ch/${chapter.no + 1}/` : undefined,
+  up: `${base}/`,
+  unit: "অধ্যায়",
+};
+---
+<Base title={`${title} — ${book.title_bn}`} description={`${book.title_bn}: ${title}`} resume={book.id} noindex={chapter.segments.every((s) => s.bn == null)}>
+  <Fragment slot="crumb"><span class="sep">›</span><h1 class="booktitle"><a href={`${base}/`}>{book.title_bn}</a></h1></Fragment>
+  <div class="pagehead">
+    <p class="meta">
+      অধ্যায় {bnNum(chapter.no)}/{bnNum(total)} · পৃষ্ঠা {bnNum(pages[0])}–{bnNum(pages.at(-1)!)} · <ArToggle />
+    </p>
+    <Pager {...pager} compact />
+  </div>
+  <div class="progress" aria-hidden="true"><span style={`width:${(chapter.no / total) * 100}%`}></span></div>
+  <MtWarning compact />
+  {chapter.no === 1 && <h2 class="chtitle">{title}</h2>}
+  {chapter.segments.map((s) => (
+    <div class="segment">
+      <a class="pmark" id={`p-${s.page}`} href={`${base}/${s.page}/`} title="এই পৃষ্ঠা আলাদাভাবে, তুরাসের লিংকসহ">
+        পৃ. {bnNum(printed(s.page) ?? s.page)}
+      </a>
+      <div class="cols">
+        <section class="text" lang="bn">
+          {s.bn ? <Fragment set:html={renderBlocks(s.bn)} /> : <p class="missing">এই অংশের অনুবাদ এখনো হয়নি।</p>}
+        </section>
+        <section class="text ar ar-col" lang="ar" dir="rtl">
+          <Fragment set:html={renderBlocks(s.ar)} />
+        </section>
+      </div>
+    </div>
+  ))}
+  <Pager {...pager} />
+</Base>

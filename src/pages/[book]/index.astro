@@ -1,0 +1,54 @@
+---
+import Base from "../../layouts/Base.astro";
+import MtWarning from "../../components/MtWarning.astro";
+import { loadBooks, type Book } from "../../lib/books";
+import { bnNum } from "../../lib/render";
+
+export function getStaticPaths() {
+  return loadBooks().map((book) => ({ params: { book: String(book.id) }, props: { book } }));
+}
+
+const { book } = Astro.props as { book: Book };
+const turath = `https://app.turath.io/book/${book.id}`;
+const base = `/${book.id}`;
+const done = (c: Book["chapters"][number]) => c.segments.filter((s) => s.bn != null).length;
+---
+<Base title={book.title_bn} description={`${book.title_bn} — মেশিন অনূদিত বাংলা পাঠ`}>
+  <Fragment slot="crumb"><span class="sep">›</span><span class="booktitle">{book.title_bn}</span></Fragment>
+  <div class="narrow">
+    <h1>{book.title_bn}</h1>
+    <p class="ar small">{book.name} — {book.author}</p>
+    {book.author_bn && <p>{book.author_bn}</p>}
+    {book.note_bn && <p class="note">{book.note_bn}</p>}
+    <MtWarning />
+    <p class="note">
+      মূল কিতাব: <a href={turath}>তুরাসে দেখুন</a> · অনূদিত পৃষ্ঠা: {bnNum(book.translated.size)}/{bnNum(book.total)}
+    </p>
+    <p class="actions">
+      <a id="resume" class="btn primary" data-book={book.id} hidden href="#">আগের জায়গা থেকে পড়ুন → <small></small></a>
+      <a class="btn" href={`${base}/ch/1/`}>শুরু থেকে পড়ুন</a>
+    </p>
+    <h2>সূচিপত্র</h2>
+    <ol class="toc">
+      {book.chapters.map((c) => (
+        <li>
+          <a href={`${base}/ch/${c.no}/`} class="chlink">
+            <span class="num">{bnNum(c.no)}.</span>
+            <span class="titles">
+              {c.title_bn ? <span>{c.title_bn}</span> : <span class="ar">{c.title_ar}</span>}
+              {c.title_bn && <span class="ar small">{c.title_ar}</span>}
+            </span>
+            <span class="status">{done(c) === c.segments.length ? "✓" : done(c) ? `${bnNum(done(c))}/${bnNum(c.segments.length)}` : ""}</span>
+          </a>
+          {c.subs.length > 0 && (
+            <ul>
+              {c.subs.map((s) => (
+                <li><a href={`${base}/ch/${c.no}/#p-${s.page}`}>{s.title_bn ?? <span class="ar">{s.title_ar}</span>}</a></li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ))}
+    </ol>
+  </div>
+</Base>

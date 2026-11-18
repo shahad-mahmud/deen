@@ -1,0 +1,52 @@
+---
+// Single Turath page view (mirrors app.turath.io/book/<id>?page=<n>). Chapter view is the main reading mode.
+import Base from "../../layouts/Base.astro";
+import MtWarning from "../../components/MtWarning.astro";
+import Pager from "../../components/Pager.astro";
+import ArToggle from "../../components/ArToggle.astro";
+import { loadBooks, readAr, readBn, type Book } from "../../lib/books";
+import { bnNum, renderBlocks } from "../../lib/render";
+
+export function getStaticPaths() {
+  return loadBooks().flatMap((book) =>
+    Array.from({ length: book.total }, (_, i) => ({
+      params: { book: String(book.id), page: String(i + 1) },
+      props: { book, n: i + 1 },
+    })),
+  );
+}
+
+const { book, n } = Astro.props as { book: Book; n: number };
+const bn = readBn(book, n);
+const printed = book.printed_pages[n - 1];
+const base = `/${book.id}`;
+const ch = book.chapterOfPage.get(n);
+const pager = {
+  prev: n > 1 ? `${base}/${n - 1}/` : undefined,
+  next: n < book.total ? `${base}/${n + 1}/` : undefined,
+  up: `${base}/`,
+  unit: "পৃষ্ঠা",
+};
+---
+<Base title={`${book.title_bn} — পৃষ্ঠা ${bnNum(n)}`} description={`${book.title_bn}, পৃষ্ঠা ${n}`} resume={book.id} noindex={!bn}>
+  <Fragment slot="crumb"><span class="sep">›</span><h1 class="booktitle"><a href={`${base}/`}>{book.title_bn}</a></h1></Fragment>
+  <div class="pagehead">
+    <p class="meta">
+      পৃষ্ঠা {bnNum(n)}/{bnNum(book.total)}{printed != null && ` (মুদ্রিত ${bnNum(printed)})`} ·{" "}
+      {ch && <><a href={`${base}/ch/${ch}/#p-${n}`}>পুরো অধ্যায় পড়ুন</a> ·{" "}</>}
+      <a href={`https://app.turath.io/book/${book.id}?page=${n}`}>তুরাসে মূল পাঠ</a> · <ArToggle />
+    </p>
+    <Pager {...pager} compact />
+  </div>
+  <div class="progress" aria-hidden="true"><span style={`width:${(n / book.total) * 100}%`}></span></div>
+  <MtWarning compact />
+  <div class="cols">
+    <section class="text" lang="bn">
+      {bn ? <Fragment set:html={renderBlocks(bn)} /> : <p class="missing">এই পৃষ্ঠার অনুবাদ এখনো হয়নি।</p>}
+    </section>
+    <section class="text ar ar-col" lang="ar" dir="rtl">
+      <Fragment set:html={renderBlocks(readAr(book, n))} />
+    </section>
+  </div>
+  <Pager {...pager} />
+</Base>

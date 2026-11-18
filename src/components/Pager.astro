@@ -1,0 +1,12 @@
+---
+// rel="prev"/"next" also drive keyboard arrows and swipe (see Base.astro).
+interface Props { prev?: string; next?: string; up?: string; unit: string; compact?: boolean }
+const { prev, next, up, unit, compact = false } = Astro.props;
+const prevLabel = compact ? "←" : `← আগের ${unit}`;
+const nextLabel = compact ? "→" : `পরের ${unit} →`;
+---
+<nav class:list={["pager", { compact }]} aria-label={unit}>
+  {prev ? <a href={prev} rel="prev" aria-label={`আগের ${unit}`}>{prevLabel}</a> : <span>{prevLabel}</span>}
+  {!compact && up && <a href={up}>সূচিপত্র</a>}
+  {next ? <a href={next} rel="next" aria-label={`পরের ${unit}`}>{nextLabel}</a> : <span>{nextLabel}</span>}
+</nav>

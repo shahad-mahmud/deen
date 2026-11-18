@@ -1,0 +1,45 @@
+---
+import { Font } from "astro:assets";
+import "../styles/global.css";
+import { SITE } from "../lib/site";
+
+interface Props { title: string; description?: string; resume?: number; noindex?: boolean } // resume: book id whose reading position to remember; noindex: untranslated pages
+const { title, description = "ক্লাসিক্যাল আরবি কিতাবের মেশিন অনূদিত বাংলা পাঠ", resume, noindex = false } = Astro.props;
+---
+<!doctype html>
+<html lang="bn">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <Font cssVariable="--font-bn" preload={[{ subset: "bengali", weight: "400" }]} />
+    <Font cssVariable="--font-ar" />
+    <!-- Reader preferences applied before first paint to avoid a flash. -->
+    <script is:inline>try{var r=document.documentElement,t=localStorage.getItem("theme"),f=localStorage.getItem("fs");if(t)r.dataset.theme=t;if(localStorage.getItem("ar")==="on")r.dataset.ar="on";if(f)r.style.setProperty("--fs",f+"px")}catch(e){}</script>
+  </head>
+  <body data-resume={resume}>
+    <div class="wrap">
+      <header class="top">
+        <nav class="crumbs" aria-label="অবস্থান">
+          <a href="/" class="home" aria-label="হোম" title={SITE}>
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+          </a>
+          <slot name="crumb" />
+        </nav>
+        <div class="tools">
+          <button class="tool" data-fs="-1" type="button" aria-label="লেখা ছোট করুন">অ−</button>
+          <button class="tool" data-fs="1" type="button" aria-label="লেখা বড় করুন">অ+</button>
+          <button class="tool" id="theme" type="button" aria-label="লাইট/ডার্ক মোড বদলান">◐</button>
+        </div>
+      </header>
+      <slot />
+      <footer>
+        মূল আরবি পাঠ <a href="https://app.turath.io/">তুরাস (Turath)</a> থেকে নেওয়া (নুকায়া প্রকল্প, আল-মাকতাবা আশ-শামেলা)। বাংলা অনুবাদ মেশিন-অনূদিত ও যাচাইহীন।
+      </footer>
+    </div>
+    <script src="../scripts/reader.js"></script>
+  </body>
+</html>

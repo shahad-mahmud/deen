@@ -1,0 +1,22 @@
+---
+import Base from "../layouts/Base.astro";
+import { SITE } from "../lib/site";
+import MtWarning from "../components/MtWarning.astro";
+import { loadBooks } from "../lib/books";
+import { bnNum } from "../lib/render";
+
+const books = loadBooks();
+---
+<Base title={SITE}>
+  <h1>{SITE}</h1>
+  <p>ক্লাসিক্যাল আরবি ইসলামি কিতাবসমূহের বাংলা পাঠ, ব্যক্তিগত অধ্যয়নের জন্য, প্রিয়জনদের সাথে শেয়ার করা হলো।</p>
+  <MtWarning />
+  <h2>কিতাবসমূহ</h2>
+  <ul>
+    {books.map((b) => (
+      <li>
+        <a href={`/${b.id}/`}>{b.title_bn}</a> <span class="ar">({b.name})</span> — অনূদিত {bnNum(b.translated.size)}/{bnNum(b.total)} পৃষ্ঠা
+      </li>
+    ))}
+  </ul>
+</Base>
