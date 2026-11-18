@@ -1,5 +1,5 @@
 :root{--bg:#f7f0e3;--fg:#2b241c;--muted:#76695a;--card:#fffaf0;--line:#e6d9c3;--accent:#8a4b1f;--warnbg:#fdeccb;--warnfg:#5e3d0a;--warnline:#e2b766;--col:46rem}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1a1612;--fg:#ece2d2;--muted:#a99a86;--card:#231e18;--line:#3b3229;--accent:#e0a36c;--warnbg:#3d2c14;--warnfg:#f3d59c;--warnline:#7d5a26}}
+/* light is the default; dark only when the reader picks it with ◐ */
 :root[data-theme="dark"]{--bg:#1a1612;--fg:#ece2d2;--muted:#a99a86;--card:#231e18;--line:#3b3229;--accent:#e0a36c;--warnbg:#3d2c14;--warnfg:#f3d59c;--warnline:#7d5a26}
 *{box-sizing:border-box}
 /* --fs is set by the reader's A−/A+ choice; defaults: 18px phone, 19.5px larger screens */

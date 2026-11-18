@@ -7,7 +7,7 @@ const store = {
 
 // Light/dark
 document.getElementById("theme")?.addEventListener("click", () => {
-  const cur = root.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  const cur = root.dataset.theme || "light";
   root.dataset.theme = cur === "dark" ? "light" : "dark";
   store.set("theme", root.dataset.theme);
 });
