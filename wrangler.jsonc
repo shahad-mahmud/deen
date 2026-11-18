@@ -1,0 +1,6 @@
+// Static site: `npm run build` writes dist/, `wrangler deploy` only uploads it (no Worker code).
+{
+  "name": "deen",
+  "compatibility_date": "2026-10-01",
+  "assets": { "directory": "./dist", "not_found_handling": "404-page" }
+}
