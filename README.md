@@ -1,26 +1,40 @@
-# deen.shahadmahmud.com
+# deen
 
-Machine-translated (Gemini) Bangla reading pages for classical Arabic books from [Turath](https://app.turath.io/). Built with [Astro](https://astro.build), deployed as a static Cloudflare Worker on every merge to `main`.
+**Read classical Arabic Islamic books in Bangla: [deen.shahadmahmud.com](https://deen.shahadmahmud.com)**
+
+The site shows classical Arabic books from [Turath](https://app.turath.io/) with a Bangla translation next to each page. You can show the Arabic beside the Bangla, read by chapter, change the text size, switch to a dark theme, and pick up where you left off.
+
+> ⚠️ **The Bangla is machine-translated (Gemini) and has not been checked by a scholar.** It can contain mistakes. For anything you act on, check the original Arabic (linked on every page) or ask a qualified scholar.
+
+## Books
+
+| Book | Bangla pages |
+|---|---|
+| [আল-কাবায়ির (al-Kaba'ir)](https://deen.shahadmahmud.com/6848/), attributed to Imam adh-Dhahabi | in progress (see the book page) |
+
+## Contributing
+
+Found a wrong meaning or reference? Want to improve the Bangla or translate more pages? See **[docs/CONTRIBUTING.md](docs/CONTRIBUTING.md)**. Even a one-line issue helps.
+
+- [docs/TRANSLATING.md](docs/TRANSLATING.md): translation format and rules (for people and AI agents).
+- [AGENTS.md](AGENTS.md): how AI agents run bulk translation (batches with a separate reviewer).
+
+## How it works
 
 ```
 content/<book_id>/
   meta.json   # fetched from Turath (title, author, headings, printed page numbers)
   book.json   # hand-written: Bangla title, author line, notes
   ar/0001.txt # Arabic source, one file per Turath page (do not edit)
-  bn/0001.md  # Bangla translation, written by Antigravity/Gemini (see TRANSLATING.md)
+  bn/0001.md  # Bangla translation of that page
 src/          # Astro site. Reading is by chapter (/<id>/ch/<n>/, built from Turath's TOC by lib/chapters.ts);
-              # single pages stay at /<id>/<page>/. Fonts are self-hosted via Astro's fonts config.
-scripts/fetch.py
+              # single pages stay at /<id>/<page>/. Fonts are self-hosted.
+scripts/fetch.py  # downloads a Turath book into content/<id>/
 ```
 
-## Workflow
+It is a static [Astro](https://astro.build) site, deployed to Cloudflare Workers on every merge to `main`. PRs get a preview link when non-production branch builds are on.
 
-1. Add a book: `python3 scripts/fetch.py <turath_book_id>`, then fill `content/<id>/book.json`.
-2. Translate on a branch: in Antigravity, *"Follow TRANSLATING.md. Translate book 6848 pages 1–10."*
-3. Check locally: `npm test && npm run build` (or `npm run dev` to read it at http://localhost:4321).
-4. Open a PR. Cloudflare posts a preview link on the PR; merge to publish.
-
-## Cloudflare setup (once)
+### Cloudflare setup (maintainers, once)
 
 Dashboard → Workers & Pages → Create → Import a repository → pick this repo.
 
@@ -29,3 +43,7 @@ Dashboard → Workers & Pages → Create → Import a repository → pick this r
 - Node version comes from `.node-version`. For PR preview links, enable non-production branch builds in the Worker's Build settings.
 
 Then Worker → Settings → Domains & Routes → Add → Custom domain → `deen.shahadmahmud.com`.
+
+## Credits
+
+The Arabic text comes from [Turath](https://app.turath.io/) (the Nuqayah project, from al-Maktaba ash-Shamela).

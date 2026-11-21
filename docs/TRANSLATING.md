@@ -37,7 +37,7 @@ Translate classical Arabic Islamic texts into modern, fluent Bangla that reads n
 - Allowed markdown: `## ` headings, `> ` quote blocks, `**bold**`, `*italic*`. Nothing else: no lists, tables or links, no front-matter, no file-level title.
 - Do **not** add your own introduction, summary, commentary, "Here is the translation" text, or a closing source/page line (the site already shows the book and page).
 
-See `content/6848/bn/0001.md` for a complete example page.
+See [`content/6848/bn/0001.md`](../content/6848/bn/0001.md) for a complete example page.
 
 ## Rules
 
