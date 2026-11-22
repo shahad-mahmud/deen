@@ -32,6 +32,27 @@ python3 scripts/fetch.py <turath_book_id>   # downloads the Arabic into content/
 
 Then write `content/<id>/book.json` (Bangla title, author line, optional note; see `content/6848/book.json`) and open a PR. Only books available on [Turath](https://app.turath.io/) are supported.
 
+### Where the Arabic comes from
+
+`fetch.py` downloads the same single JSON file the Turath app uses for offline reading (one request per book), plus the book's table of contents and details. It writes:
+
+```
+content/<id>/
+  meta.json   # name, author, Turath's info text, the printed page number of each Turath page,
+              # and the table of contents (the site builds chapters from it)
+  book.json   # created empty; you fill in the Bangla title, author line and note
+  ar/NNNN.txt # one file per Turath page: 0004.txt = https://app.turath.io/book/<id>?page=4
+  bn/         # empty; translations go here as NNNN.md
+```
+
+Each Turath page is kept as it is, with only these changes:
+
+- Turath's title markup becomes a `## ` line. A heading that Turath doesn't mark stays a plain line.
+- Other HTML tags are removed, and repeated spaces and blank lines are collapsed.
+- Single-character honorific symbols (`﵁`, `﷿`, …) are written out as words (`رضي الله عنه`, `عز وجل`), because most Arabic fonts can't show them. `ﷺ` is kept.
+
+Words, diacritics and the printed page numbers inside the text (`⦗٢٣⦘`) are never changed. **Never edit `ar/` files by hand.** Readers trust that the Arabic is exactly Turath's text. If a page looks wrong, report it rather than fixing it here.
+
 ## Run the site locally
 
 Requires Node 22 (see `.node-version`).

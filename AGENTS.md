@@ -19,4 +19,11 @@ When asked to translate more than a few pages (e.g. "translate 6848 pages 51–1
 4. **Fix, then verify.** Apply the fixes (or send them back to the translating subagent). Then run `npm test && npm run build`.
 5. **Next batch.** Start it only after the previous batch is fixed, because each batch continues from the previous batch's last page.
 
-Commit only the `content/<id>/bn/*.md` files, on a branch, and open a PR (see [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md)). Never edit `content/<id>/ar/`; it is the source text.
+Commit only the `content/<id>/bn/*.md` files, on a branch, and open a PR (see [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md)).
+
+## The Arabic source is read-only
+
+`content/<id>/ar/` is Turath's text, downloaded by `scripts/fetch.py`. "Where the Arabic comes from" in [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) lists exactly what the script changes.
+
+- Never edit, reformat or "fix" `ar/` files, and don't change how `fetch.py` treats the text. That includes adding missing `## ` headings, removing `⦗n⦘` page numbers and joining or splitting lines. To add a book, run `fetch.py` as it is.
+- If the Arabic looks wrong or a heading isn't marked, handle it in the translation (see `docs/TRANSLATING.md`) or report it to the user. Don't change the source.
