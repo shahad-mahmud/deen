@@ -18,7 +18,7 @@ The site shows classical Arabic books from [Turath](https://app.turath.io/) with
 Found a wrong meaning or reference? Want to improve the Bangla or translate more pages? See **[docs/CONTRIBUTING.md](docs/CONTRIBUTING.md)**. Even a one-line issue helps.
 
 - [docs/TRANSLATING.md](docs/TRANSLATING.md): translation format and rules (for people and AI agents).
-- [AGENTS.md](AGENTS.md): how AI agents run bulk translation (batches with a separate reviewer).
+- [AGENTS.md](AGENTS.md): how AI agents run bulk translation (batches checked by two reviewers: full audit and meaning audit).
 
 ## How it works
 
