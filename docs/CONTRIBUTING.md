@@ -22,7 +22,7 @@ Please edit only `bn/` files. The Arabic in `ar/` is the source and stays as it 
 
 ## Translate new pages
 
-Translations are made with an AI agent (Antigravity / Gemini, Claude Code, …) following [TRANSLATING.md](TRANSLATING.md). Agents doing bulk translation also follow [AGENTS.md](../AGENTS.md), which has them translate in batches of about 5 pages and have a separate reviewer check each batch. Check the [book page](https://deen.shahadmahmud.com/6848/) for which pages are done, and open an issue first if you plan to translate a large range, so that two people don't translate the same pages.
+Translations are made with an AI agent (Antigravity / Gemini, Claude Code, …) following [TRANSLATING.md](TRANSLATING.md). Agents doing bulk translation also follow [AGENTS.md](../AGENTS.md), which has them translate in batches of about 5 pages and have two separate reviewers (a full audit and a meaning audit) check each batch. Check the [book page](https://deen.shahadmahmud.com/6848/) for which pages are done, and open an issue first if you plan to translate a large range, so that two people don't translate the same pages.
 
 ## Add a book
 
