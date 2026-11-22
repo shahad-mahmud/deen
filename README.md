@@ -11,6 +11,7 @@ The site shows classical Arabic books from [Turath](https://app.turath.io/) with
 | Book | Bangla pages |
 |---|---|
 | [আল-কাবায়ির (al-Kaba'ir)](https://deen.shahadmahmud.com/6848/), attributed to Imam adh-Dhahabi | in progress (see the book page) |
+| [আল-আরবাউন আস-সুগরা (al-Arba'un as-Sughra)](https://deen.shahadmahmud.com/12992/), Imam al-Bayhaqi | not started |
 
 ## Contributing
 
