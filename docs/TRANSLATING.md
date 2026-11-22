@@ -55,6 +55,7 @@ See [`content/6848/bn/0001.md`](../content/6848/bn/0001.md) for a complete examp
 12. **Tone:** keep the solemn, reverent, scholarly tone of the original while staying fluent; never casual.
 13. **Short sayings** (a line from a Companion, a scholar or a short phrase quoted mid-argument) stay inside the paragraph in quotation marks. Only ayat and hadith get their own quote block.
 14. **Continuity:** before translating page N, read the end of `bn/<N-1>.md` (if it exists) so a sentence broken across pages continues seamlessly and terms and names stay consistent with earlier pages.
+15. **Hadith collections with chains (isnad)** (e.g. book 12992): start each hadith's paragraph with its number in Bangla digits (`১ -`). Translate the whole chain with every narrator name, as the paragraph that introduces the hadith: أخبرنا / أنا → "আমাদের কাছে বর্ণনা করেছেন", حدثنا / ثنا → "আমাদের কাছে হাদিস বর্ণনা করেছেন", عن → "থেকে". Put the hadith text itself (the matn) in the quote block. Translate the author's note on where the hadith is recorded (رواه مسلم في الصحيح …) in full, as a plain paragraph after the quote block.
 
 ## After translating
 

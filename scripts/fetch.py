@@ -31,11 +31,29 @@ HONORIFICS = {
 def clean(text):
     text = TITLE_SPAN.sub(lambda m: "\n## " + m.group(1).strip() + "\n", text)
     text = re.sub(r"<[^>]+>", "", text)
+    text = re.sub(r"\s*⦗[٠-٩]+⦘\s*", " ", text)  # inline printed-page markers; the site doesn't use them
     for ch, words in HONORIFICS.items():
         text = text.replace(ch, f" {words} ")
     text = re.sub(r" {2,}", " ", text)
     text = re.sub(r" *\n *", "\n", text)
     return re.sub(r"\n{3,}", "\n\n", text).strip() + "\n"
+
+
+DIACRITICS = re.compile("[\u064b-\u0652\u0670]")
+
+
+def mark_headings(text, titles):
+    """Some books put a TOC heading on a plain line instead of a title span; mark that line `## `."""
+    lines = text.split("\n")
+    for title in titles:
+        words = DIACRITICS.sub("", title).split()[:4]
+        if any(l.startswith("## ") and DIACRITICS.sub("", l)[3:].split()[:4] == words for l in lines):
+            continue
+        for i, l in enumerate(lines):
+            if not l.startswith("## ") and DIACRITICS.sub("", l).split()[:4] == words:
+                lines[i] = "## " + l
+                break
+    return "\n".join(lines)
 
 
 def main(book_id):
@@ -45,8 +63,11 @@ def main(book_id):
     out = ROOT / "content" / str(book_id)
     (out / "ar").mkdir(parents=True, exist_ok=True)
     (out / "bn").mkdir(exist_ok=True)
+    titles = {}
+    for h in meta["indexes"]["headings"]:
+        titles.setdefault(h["page"], []).append(h["title"])
     for i, p in enumerate(pages, 1):
-        (out / "ar" / f"{i:04d}.txt").write_text(clean(p["text"]), encoding="utf-8")
+        (out / "ar" / f"{i:04d}.txt").write_text(mark_headings(clean(p["text"]), titles.get(i, [])), encoding="utf-8")
     info = meta["meta"].get("info") or ""
     author = re.search(r"المؤلف:\s*(.+)", info)
     (out / "meta.json").write_text(json.dumps({
