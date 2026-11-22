@@ -31,7 +31,7 @@ HONORIFICS = {
 def clean(text):
     text = TITLE_SPAN.sub(lambda m: "\n## " + m.group(1).strip() + "\n", text)
     text = re.sub(r"<[^>]+>", "", text)
-    text = re.sub(r"\s*⦗[٠-٩]+⦘\s*", " ", text)  # inline printed-page markers; the site doesn't use them
+    text = re.sub(r"[ \t]*⦗[٠-٩]+⦘[ \t]*", " ", text)  # inline printed-page markers; the site doesn't use them
     for ch, words in HONORIFICS.items():
         text = text.replace(ch, f" {words} ")
     text = re.sub(r" {2,}", " ", text)
