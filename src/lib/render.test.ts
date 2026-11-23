@@ -15,8 +15,8 @@ test("renderBlocks escapes HTML and supports the subset", () => {
   );
 });
 
-test("renderBlocks: a heading line glued to a paragraph is still a heading", () => {
-  assert.equal(renderBlocks("isnad:\n## matn\nrest"), "<p>isnad:</p>\n<h2>matn</h2>\n<p>rest</p>");
+test("renderBlocks: a title glued to a paragraph is plain text", () => {
+  assert.equal(renderBlocks("isnad:\n## matn\nrest"), "<p>isnad:<br>matn<br>rest</p>");
 });
 
 test("bnNum", () => assert.equal(bnNum(234), "২৩৪"));

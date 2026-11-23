@@ -5,7 +5,8 @@ const escape = (s: string) => s.replace(/[&<>"']/g, (c) => ESC[c]);
 
 export function renderBlocks(text: string): string {
   return text
-    .replace(/^#{1,6}\s.*$/gm, "\n\n$&\n\n") // some Turath books put a title line right under the paragraph
+    .replace(/([^\n])\n#{1,6}[ \t]+/g, "$1\n") // a title glued to a paragraph is highlighted hadith text (e.g. 8207, 13113), not a heading
+    .replace(/^#{1,6}\s.*$/gm, "\n\n$&\n\n")
     .trim()
     .split(/\n\s*\n/)
     .map((b) => b.trim())
