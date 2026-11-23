@@ -20,6 +20,8 @@ const total = book.chapters.length;
 const title = chapter.title_bn ?? chapter.title_ar;
 const pages = chapter.segments.map((s) => s.page);
 const printed = (n: number) => book.printed_pages[n - 1];
+const [first, last] = [pages[0], pages.at(-1)!].map((n) => bnNum(printed(n) ?? n));
+const range = first === last ? first : `${first}–${last}`;
 const pager = {
   prev: chapter.no > 1 ? `${base}/ch/${chapter.no - 1}/` : undefined,
   next: chapter.no < total ? `${base}/ch/${chapter.no + 1}/` : undefined,
@@ -31,7 +33,7 @@ const pager = {
   <Fragment slot="crumb"><span class="sep">›</span><h1 class="booktitle"><a href={`${base}/`}>{book.title_bn}</a></h1></Fragment>
   <div class="pagehead">
     <p class="meta">
-      অধ্যায় {bnNum(chapter.no)}/{bnNum(total)} · পৃষ্ঠা {bnNum(printed(pages[0]) ?? pages[0])}–{bnNum(printed(pages.at(-1)!) ?? pages.at(-1)!)} · <ArToggle />
+      অধ্যায় {bnNum(chapter.no)}/{bnNum(total)} · পৃষ্ঠা {range} · <ArToggle />
     </p>
     <Pager {...pager} compact />
   </div>
