@@ -33,3 +33,9 @@ test("buildChapters splits pages at chapter headings, never loses or duplicates 
   assert.equal(ch[2].segments[1].bn, null);
   assert.deepEqual(ch[2].subs.map((s) => s.title_ar), ["S1"]);
 });
+
+test("a heading glued to a paragraph does not cut the page", () => {
+  const ar = (n: number) => ["", "١ - isnad:\n## matn one\nrest", "٢ - isnad:\n## matn two\nrest"][n];
+  const ch = buildChapters(2, [{ title: "matn one", level: 1, page: 1 }, { title: "matn two", level: 1, page: 2 }], ar, () => null);
+  assert.deepEqual(ch.map((c) => c.segments.map((s) => [s.page, s.ar])), [[[1, ar(1)]], [[2, ar(2)]]]);
+});

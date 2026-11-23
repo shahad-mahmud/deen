@@ -5,6 +5,7 @@ const escape = (s: string) => s.replace(/[&<>"']/g, (c) => ESC[c]);
 
 export function renderBlocks(text: string): string {
   return text
+    .replace(/^#{1,6}\s.*$/gm, "\n\n$&\n\n") // some Turath books put a title line right under the paragraph
     .trim()
     .split(/\n\s*\n/)
     .map((b) => b.trim())
