@@ -1,7 +1,7 @@
 // Groups Turath pages into chapters (level-1 TOC headings) so a chapter reads continuously.
 // Pure functions only; books.ts feeds them file contents.
 
-export type TocHeading = { title: string; level: number; page: number };
+export type TocHeading = { title: string; level: number; page: number; title_bn?: string };
 export type Segment = { page: number; ar: string; bn: string | null }; // bn null = not translated yet
 export type SubHeading = { title_ar: string; title_bn: string | null; page: number };
 export type Chapter = {
@@ -24,6 +24,24 @@ export function slice(t: string, from: number | null, to: number | null): string
   const bs = blocks(t);
   const hi = bs.flatMap((b, i) => (isHead(b) ? [i] : []));
   return bs.slice(from == null ? 0 : hi[from], to == null ? bs.length : hi[to]).join("\n\n");
+}
+
+// A flat collection of numbered narrations (book.json "flat": true) has no chapters; Turath's TOC there
+// just lists each narration's opening words. Group every `size` pages, titled by the narration numbers in them.
+const AR_DIGITS = "٠١٢٣٤٥٦٧٨٩";
+export function flatToc(total: number, ar: (n: number) => string, size = 10): TocHeading[] {
+  const toc: TocHeading[] = [];
+  for (let p = 1; p <= total; p += size) {
+    const nums: string[] = [];
+    for (let n = p; n < Math.min(p + size, total + 1); n++) nums.push(...[...ar(n).matchAll(/^([٠-٩]+) ?-/gm)].map((m) => m[1]));
+    const [a, b] = [nums[0] ?? "", nums.at(-1) ?? ""];
+    const latin = (s: string) => s.replace(/[٠-٩]/g, (d) => String(AR_DIGITS.indexOf(d)));
+    const bn = (s: string) => latin(s).replace(/\d/g, (d) => "০১২৩৪৫৬৭৮৯"[+d]);
+    toc.push(a
+      ? { title: `${a} – ${b}`, title_bn: `হাদিস ${bn(a)}–${bn(b)}`, level: 1, page: p }
+      : { title: String(p), level: 1, page: p });
+  }
+  return toc;
 }
 
 export function buildChapters(
@@ -53,7 +71,7 @@ export function buildChapters(
   type Point = { page: number; idx: number | null };
   const starts: { at: Point; title_ar: string; title_bn: string | null }[] = [
     { at: { page: 1, idx: null }, title_ar: "مقدمة", title_bn: "ভূমিকা" },
-    ...pos.filter((h) => h.level === 1).map((h) => ({ at: { page: h.page, idx: h.idx }, title_ar: h.title, title_bn: bnTitle(h.page, h.idx) })),
+    ...pos.filter((h) => h.level === 1).map((h) => ({ at: { page: h.page, idx: h.idx }, title_ar: h.title, title_bn: h.title_bn ?? bnTitle(h.page, h.idx) })),
   ];
 
   const chapters: Chapter[] = [];

@@ -1,7 +1,7 @@
 // Reads content/<id>/ at build time. Layout is documented in README.md.
 import fs from "node:fs";
 import path from "node:path";
-import { buildChapters, type Chapter } from "./chapters";
+import { buildChapters, flatToc, type Chapter } from "./chapters";
 
 const CONTENT = path.resolve("content");
 
@@ -38,7 +38,8 @@ export function loadBooks(): Book[] {
       const translated = new Set<number>();
       for (let n = 1; n <= total; n++) if (readBn({ dir } as Book, n)) translated.add(n);
       const book = { ...meta, ...extra, title_bn: extra.title_bn || meta.name, total, translated, dir } as Book;
-      book.chapters = buildChapters(total, meta.headings, (n) => readAr(book, n), (n) => readBn(book, n));
+      const toc = extra.flat ? flatToc(total, (n) => readAr(book, n)) : meta.headings;
+      book.chapters = buildChapters(total, toc, (n) => readAr(book, n), (n) => readBn(book, n));
       book.chapterOfPage = new Map();
       for (const c of book.chapters) for (const s of c.segments) if (!book.chapterOfPage.has(s.page)) book.chapterOfPage.set(s.page, c.no);
       return book;
