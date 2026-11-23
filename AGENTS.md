@@ -12,7 +12,7 @@ When asked to translate more than a few pages (e.g. "translate 6848 pages 51–1
 
    **a. Full audit (structure and rules).** For every page in the batch, it checks things that can be counted or matched against the Arabic and `docs/TRANSLATING.md`:
    - **Pages:** every page in the batch has a `bn` file.
-   - **Headings:** one `## ` per Arabic `## `, in order, plus one for each table-of-contents heading the Arabic leaves unmarked (rule 16, `meta.json` `headings`). No other `#` headings.
+   - **Headings:** one `## ` per Arabic `## ` that is a real heading (not a hadith or verse Turath marked as a title; see `docs/TRANSLATING.md`), in order, plus one for each table-of-contents heading the Arabic leaves unmarked (rule 16, `meta.json` `headings`). No other `#` headings.
    - **Hadith numbers:** they match the Arabic, in Bangla digits (rule 15).
    - **Sources:** every hadith source or collection in the Bangla is named in the Arabic on that page, and every one named in the Arabic is in the Bangla (rule 4).
    - **Quran:** every `﴿ … ﴾` is an ayah quote block. A `*(সূরা …)*` reference appears only where the reviewer is certain of it.

@@ -13,7 +13,7 @@ export type Chapter = {
 };
 
 // A heading glued to a paragraph (no blank line) is a title highlighted inside a report (e.g. book 13113),
-// not a section break, so it never cuts a page; render.ts still shows it as a heading.
+// not a section break, so it never cuts a page, and render.ts shows it as plain text.
 const blocks = (t: string) => t.trim().split(/\n\s*\n/).map((b) => b.trim()).filter(Boolean);
 const isHead = (b: string) => /^#{1,6}\s/.test(b);
 export const headingTexts = (t: string) =>
