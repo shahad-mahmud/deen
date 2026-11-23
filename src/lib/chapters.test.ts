@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { buildChapters, slice } from "./chapters.ts";
+import { buildChapters, flatToc, slice } from "./chapters.ts";
 
 const AR: Record<number, string> = {
   1: "intro a",
@@ -38,4 +38,12 @@ test("a heading glued to a paragraph does not cut the page", () => {
   const ar = (n: number) => ["", "١ - isnad:\n## matn one\nrest", "٢ - isnad:\n## matn two\nrest"][n];
   const ch = buildChapters(2, [{ title: "matn one", level: 1, page: 1 }, { title: "matn two", level: 1, page: 2 }], ar, () => null);
   assert.deepEqual(ch.map((c) => c.segments.map((s) => [s.page, s.ar])), [[[1, ar(1)]], [[2, ar(2)]]]);
+});
+
+test("flatToc groups a flat book into sections titled by narration numbers", () => {
+  const ar = (n: number) => `${"٠١٢٣٤٥٦٧٨٩"[n]} - isnad:\n## matn\nrest`;
+  const toc = flatToc(5, ar, 2);
+  assert.deepEqual(toc.map((h) => [h.page, h.title_bn]), [[1, "হাদিস ১–২"], [3, "হাদিস ৩–৪"], [5, "হাদিস ৫–৫"]]);
+  const ch = buildChapters(5, toc, ar, () => null);
+  assert.deepEqual(ch.map((c) => [c.title_bn, c.segments.map((s) => s.page)]), [["হাদিস ১–২", [1, 2]], ["হাদিস ৩–৪", [3, 4]], ["হাদিস ৫–৫", [5]]]);
 });
