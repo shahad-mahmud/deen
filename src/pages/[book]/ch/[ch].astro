@@ -33,7 +33,8 @@ const pager = {
   <Fragment slot="crumb"><span class="sep">›</span><h1 class="booktitle"><a href={`${base}/`}>{book.title_bn}</a></h1></Fragment>
   <div class="pagehead">
     <p class="meta">
-      অধ্যায় {bnNum(chapter.no)}/{bnNum(total)} · পৃষ্ঠা {range} · <ArToggle />
+      অধ্যায় {bnNum(chapter.no)}/{bnNum(total)} · পৃষ্ঠা {range} ·{" "}
+      <a href={`${base}/${pages[0]}/`}>পৃষ্ঠা ধরে পড়ুন</a> · <ArToggle />
     </p>
     <Pager {...pager} compact />
   </div>
