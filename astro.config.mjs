@@ -6,5 +6,7 @@ export default defineConfig({
   fonts: [
     { provider: fontProviders.google(), name: "Noto Serif Bengali", cssVariable: "--font-bn", weights: [400, 700], subsets: ["bengali", "latin"], fallbacks: ["serif"] },
     { provider: fontProviders.google(), name: "Amiri", cssVariable: "--font-ar", weights: [400, 700], subsets: ["arabic"], fallbacks: ["serif"] },
+    // Honorific glyphs in the Bangla text (ﷺ ﵁ ﵀ ﷿ …); Amiri and Noto Serif Bengali lack most of them.
+    { provider: fontProviders.google(), name: "Noto Naskh Arabic", cssVariable: "--font-hon", weights: [400], subsets: ["arabic"], fallbacks: [] },
   ],
 });
