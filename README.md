@@ -6,12 +6,7 @@ The site shows classical Arabic books from [Turath](https://app.turath.io/) with
 
 > ⚠️ **The Bangla is machine-translated (Gemini) and has not been checked by a scholar.** It can contain mistakes. For anything you act on, check the original Arabic (linked on every page) or ask a qualified scholar.
 
-## Books
-
-| Book | Bangla pages |
-|---|---|
-| [আল-কাবায়ির (al-Kaba'ir)](https://deen.shahadmahmud.com/6848/), attributed to Imam adh-Dhahabi | in progress (see the book page) |
-| [আল-আরবাউন আস-সুগরা (al-Arba'un as-Sughra)](https://deen.shahadmahmud.com/12992/), Imam al-Bayhaqi | not started |
+See the [home page](https://deen.shahadmahmud.com) for the list of books and how much of each is translated.
 
 ## Contributing
 
