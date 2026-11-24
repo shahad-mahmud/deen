@@ -15,6 +15,7 @@ export type Book = {
   title_bn: string;
   author_bn?: string;
   note_bn?: string;
+  added?: string; // YYYY-MM-DD the book was added to the site (book.json); drives "recently added"
   total: number;
   translated: Set<number>;
   dir: string;
@@ -34,6 +35,8 @@ export function loadBooks(): Book[] {
     .map((dir) => {
       const meta = JSON.parse(read(path.join(dir, "meta.json")));
       const extra = JSON.parse(read(path.join(dir, "book.json")));
+      // "added" is compared as text for "recently added", so it must be zero-padded.
+      if (extra.added !== undefined && !/^\d{4}-\d{2}-\d{2}$/.test(extra.added)) throw new Error(`${dir}/book.json: "added" must be YYYY-MM-DD, got ${JSON.stringify(extra.added)}`);
       const total = meta.printed_pages.length;
       const translated = new Set<number>();
       for (let n = 1; n <= total; n++) if (readBn({ dir } as Book, n)) translated.add(n);
