@@ -41,7 +41,7 @@ const pager = {
   <div class="progress" aria-hidden="true"><span style={`width:${(n / book.total) * 100}%`}></span></div>
   <MtWarning compact />
   <div class="cols">
-    <section class="text" lang="bn">
+    <section class="text" lang="bn" data-pagefind-body={bn ? "" : undefined} data-pagefind-meta={`title:${book.title_bn} — পৃষ্ঠা ${bnNum(n)}`}>
       {bn ? <Fragment set:html={renderBlocks(bn)} /> : <p class="missing">এই পৃষ্ঠার অনুবাদ এখনো হয়নি।</p>}
     </section>
     <section class="text ar ar-col" lang="ar" dir="rtl">

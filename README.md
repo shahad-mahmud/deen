@@ -20,7 +20,7 @@ Found a wrong meaning or reference? Want to improve the Bangla or translate more
 ```
 content/<book_id>/
   meta.json   # fetched from Turath (title, author, headings, printed page numbers)
-  book.json   # hand-written: Bangla title, author line, notes; "flat": true for a book of numbered narrations with no chapters
+  book.json   # hand-written: Bangla title, author line, notes, date added; "flat": true for a book of numbered narrations with no chapters
   ar/0001.txt # Arabic source, one file per Turath page (do not edit)
   bn/0001.md  # Bangla translation of that page
 src/          # Astro site. Reading is by chapter (/<id>/ch/<n>/, built from Turath's TOC by lib/chapters.ts);

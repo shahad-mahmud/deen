@@ -87,3 +87,17 @@ ol.toc ul a{text-decoration:none}
 footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);margin-top:32px;padding-top:12px}
 ol.toc .ar{font-size:1.05em;line-height:1.7;text-align:left}
 ol.toc .ar.small{font-size:.85rem}
+
+/* home page */
+.search{margin:16px 0}
+.search label{display:block;font-weight:700;margin-bottom:4px}
+.search input{font:inherit;width:100%;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg)}
+.search .note{margin:6px 0}
+ol.results{padding-inline-start:1.4em}
+ol.results li{margin-bottom:10px}
+ol.results p{margin:0;font-size:.92rem}
+ol.results mark{background:var(--warnbg);color:inherit}
+ul.books li{margin:4px 0}
+.tag{display:inline-block;margin-inline-start:8px;padding:0 8px;border:1px solid var(--warnline);border-radius:999px;background:var(--warnbg);color:var(--warnfg);font-size:.78rem;white-space:nowrap}
+section.author h3{font-size:1.05rem;margin:1.2em 0 .2em}
+a.tool{display:inline-flex;align-items:center;justify-content:center;text-decoration:none}

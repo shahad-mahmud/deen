@@ -62,7 +62,7 @@ if (book) {
   const save = () => {
     const passed = marks.filter((m) => m.getBoundingClientRect().top < 140).at(-1);
     const where = passed ? `#${passed.id}` : "";
-    store.set(`last:${book}`, JSON.stringify({ url: location.pathname + where, title: document.title, mark: passed?.textContent.trim() || "" }));
+    store.set(`last:${book}`, JSON.stringify({ url: location.pathname + where, title: document.title, mark: passed?.textContent.trim() || "", at: Date.now() }));
   };
   save();
   let queued = false;
@@ -78,7 +78,8 @@ if (resume) {
     const last = JSON.parse(store.get(`last:${resume.dataset.book}`) || "null");
     if (last?.url) {
       resume.href = last.url;
-      resume.querySelector("small").textContent = [last.title.split(" — ")[0], last.mark].filter(Boolean).join(" · ");
+      const book = document.querySelector("h1")?.textContent; // the label shows where, not the book's own title again
+      resume.querySelector("small").textContent = [...last.title.split(" — "), last.mark].filter((s) => s && s !== book).join(" · ");
       resume.hidden = false;
     }
   } catch { /* corrupt entry: just don't offer resume */ }

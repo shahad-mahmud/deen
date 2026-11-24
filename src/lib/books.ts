@@ -15,6 +15,7 @@ export type Book = {
   title_bn: string;
   author_bn?: string;
   note_bn?: string;
+  added?: string; // YYYY-MM-DD the book was added to the site (book.json); drives "recently added"
   total: number;
   translated: Set<number>;
   dir: string;

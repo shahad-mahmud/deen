@@ -30,7 +30,7 @@ Translations are made with an AI agent (Antigravity / Gemini, Claude Code, …) 
 python3 scripts/fetch.py <turath_book_id>   # downloads the Arabic into content/<id>/
 ```
 
-Then write `content/<id>/book.json` (Bangla title, author line, optional note; see `content/6848/book.json`). If the book is a flat collection of numbered narrations and Turath's table of contents just lists each one, add `"flat": true`: the site then groups it into sections of 10 pages instead of one chapter per narration and open a PR. Only books available on [Turath](https://app.turath.io/) are supported.
+Then write `content/<id>/book.json` (Bangla title, author line, optional note, and `"added"`, today's date as `YYYY-MM-DD`; see `content/6848/book.json`) and open a PR. The home page lists the newest books by `added` and groups all books by the Bangla author line, so write the author exactly as the author's other books have it. If the book is a flat collection of numbered narrations and Turath's table of contents just lists each one, add `"flat": true`: the site then groups it into sections of 10 pages instead of one chapter per narration. Only books available on [Turath](https://app.turath.io/) are supported.
 
 ### Where the Arabic comes from
 

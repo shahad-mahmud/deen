@@ -4,11 +4,14 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
     "test": "node --test src/lib/*.test.ts"
   },
   "dependencies": {
     "astro": "7.4.1"
+  },
+  "devDependencies": {
+    "pagefind": "1.6.0"
   }
 }

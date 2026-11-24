@@ -22,7 +22,7 @@ const done = (c: Book["chapters"][number]) => c.segments.filter((s) => s.bn != n
     {book.note_bn && <p class="note">{book.note_bn}</p>}
     <MtWarning />
     <p class="note">
-      মূল কিতাব: <a href={turath}>তুরাসে দেখুন</a> · অনূদিত পৃষ্ঠা: {bnNum(book.translated.size)}/{bnNum(book.total)}
+      মূল কিতাব: <a href={turath}>তুরাসে দেখুন</a>{book.translated.size < book.total && ` · অনুবাদ চলছে: ${bnNum(book.translated.size)}/${bnNum(book.total)} পৃষ্ঠা`}
     </p>
     <p class="actions">
       <a id="resume" class="btn primary" data-book={book.id} hidden href="#">আগের জায়গা থেকে পড়ুন → <small></small></a>
