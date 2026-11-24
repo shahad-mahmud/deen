@@ -55,7 +55,7 @@ addEventListener("touchend", (e) => {
   touch = null;
 }, { passive: true });
 
-// Remember reading position per book ("continue where you left off" on the book page).
+// Remember reading position per book (the book page's "continue" button and the home page's "continue reading").
 const book = document.body.dataset.resume;
 if (book) {
   const marks = [...document.querySelectorAll(".pmark")];

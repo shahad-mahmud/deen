@@ -15,7 +15,7 @@ const progress = (b: Book) => b.translated.size < b.total && `অনুবাদ
   <p>ক্লাসিক্যাল আরবি ইসলামি কিতাবসমূহের বাংলা পাঠ, ব্যক্তিগত অধ্যয়নের জন্য, প্রিয়জনদের সাথে শেয়ার করা হলো।</p>
   <MtWarning />
 
-  <form id="search" class="search" role="search" action="/" onsubmit="return false">
+  <form id="search" class="search" role="search" action="/">
     <label for="q">সব কিতাবে খুঁজুন</label>
     <input id="q" type="search" placeholder="যেমন: নিয়ত, সবর, জান্নাত" autocomplete="off" />
     <p id="search-status" class="note" aria-live="polite"></p>
@@ -37,7 +37,7 @@ const progress = (b: Book) => b.translated.size < b.total && `অনুবাদ
   <h2>লেখক অনুযায়ী সব কিতাব</h2>
   {byAuthor(books).map((group) => (
     <section class="author">
-      <h3>{group[0].author_bn ?? <span class="ar">{group[0].author}</span>} <small class="note">({bnNum(group.length)})</small></h3>
+      <h3>{group[0].author_bn || <span class="ar">{group[0].author}</span>} <small class="note">({bnNum(group.length)})</small></h3>
       <ul class="books">
         {group.map((b) => (
           <li><a href={`/${b.id}/`} data-book={b.id}>{b.title_bn}</a> <span class="ar small">({b.name})</span>{progress(b) && <span class="tag">{progress(b)}</span>}</li>
