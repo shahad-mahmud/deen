@@ -55,6 +55,7 @@ blockquote em{font-style:normal;color:var(--muted);font-size:.92em}
 .ar-on,:root[data-ar="on"] .ar-off{display:none}
 :root[data-ar="on"] .ar-on{display:inline}
 :root[data-ar="on"] :is(.cols,.pagehead,.warn.compact,.pager,.progress,.pmark,.chtitle){max-width:none}
+@media (max-width:899px){.text.ar{order:-1}}
 @media (min-width:900px){
   :root[data-ar="on"] .cols{grid-template-columns:1fr 1fr}
   .text.ar{border-left:1px solid var(--line);padding-left:16px}
