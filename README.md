@@ -28,17 +28,7 @@ src/          # Astro site. Reading is by chapter (/<id>/ch/<n>/, built from Tur
 scripts/fetch.py  # downloads a Turath book into content/<id>/
 ```
 
-It is a static [Astro](https://astro.build) site, deployed to Cloudflare Workers on every merge to `main`. PRs get a preview link when non-production branch builds are on.
-
-### Cloudflare setup (maintainers, once)
-
-Dashboard → Workers & Pages → Create → Import a repository → pick this repo.
-
-- Production branch: `main` · Build command: `npm run build` · Deploy command: `npx wrangler deploy`
-- `wrangler.jsonc` makes the deploy upload `dist/` as static assets (no Worker code). Without it, wrangler auto-adds an SSR adapter and the build fails.
-- Node version comes from `.node-version`. For PR preview links, enable non-production branch builds in the Worker's Build settings.
-
-Then Worker → Settings → Domains & Routes → Add → Custom domain → `deen.shahadmahmud.com`.
+It is a static [Astro](https://astro.build) site, deployed to Cloudflare Workers on every merge to `main`. PRs get a preview link.
 
 ## Credits
 
