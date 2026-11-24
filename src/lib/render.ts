@@ -2,6 +2,9 @@
 // "#".."######" headings (all rendered as h2), "> " quotes, **bold**, *italic*. Everything is HTML-escaped first.
 const ESC: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
 const escape = (s: string) => s.replace(/[&<>"']/g, (c) => ESC[c]);
+// Some Turath text carries literal entities (&quot; in 13180 and others); decode them so they are not escaped twice.
+const DECODE: Record<string, string> = { quot: '"', lt: "<", gt: ">", amp: "&" };
+const decode = (s: string) => s.replace(/&(quot|lt|gt|amp);/g, (_, e) => DECODE[e]);
 
 export function renderBlocks(text: string): string {
   return text
@@ -17,7 +20,7 @@ export function renderBlocks(text: string): string {
       const heading = block.match(/^#{1,6}\s+([\s\S]*)$/);
       if (heading) [tag, body] = ["h2", heading[1].replace(/^\*\*(.*)\*\*$/, "$1")];
       else if (block.startsWith(">")) [tag, body] = ["blockquote", block.replace(/^>[ \t]?/gm, "")];
-      body = escape(body)
+      body = escape(decode(body))
         .replace(/\n/g, "<br>")
         .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
         .replace(/\*(.+?)\*/g, "<em>$1</em>");

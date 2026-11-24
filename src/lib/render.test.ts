@@ -19,4 +19,8 @@ test("renderBlocks: a title glued to a paragraph is plain text", () => {
   assert.equal(renderBlocks("isnad:\n## matn\nrest"), "<p>isnad:<br>matn<br>rest</p>");
 });
 
+test("renderBlocks decodes source entities instead of escaping them twice", () => {
+  assert.equal(renderBlocks("قال: &quot;لا&quot; &lt;x&gt;"), "<p>قال: &quot;لا&quot; &lt;x&gt;</p>");
+});
+
 test("bnNum", () => assert.equal(bnNum(234), "২৩৪"));
