@@ -41,8 +41,10 @@ export function loadBooks(): Book[] {
       const translated = new Set<number>();
       for (let n = 1; n <= total; n++) if (readBn({ dir } as Book, n)) translated.add(n);
       const book = { ...meta, ...extra, title_bn: extra.title_bn || meta.name, total, translated, dir } as Book;
-      const toc = extra.flat ? flatToc(total, (n) => readAr(book, n)) : meta.headings;
+      // book.json "single": true reads a short pamphlet as one chapter; its headings stay inside the text.
+      const toc = extra.single ? [] : extra.flat ? flatToc(total, (n) => readAr(book, n)) : meta.headings;
       book.chapters = buildChapters(total, toc, (n) => readAr(book, n), (n) => readBn(book, n));
+      if (extra.single) Object.assign(book.chapters[0], { title_ar: meta.name, title_bn: book.title_bn });
       book.chapterOfPage = new Map();
       for (const c of book.chapters) for (const s of c.segments) if (!book.chapterOfPage.has(s.page)) book.chapterOfPage.set(s.page, c.no);
       return book;
