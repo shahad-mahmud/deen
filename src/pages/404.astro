@@ -2,6 +2,8 @@
 import Base from "../layouts/Base.astro";
 ---
 <Base title="পৃষ্ঠাটি পাওয়া যায়নি" noindex>
+  <!-- A chapter that no longer exists (e.g. a pamphlet merged into one chapter, "single" in book.json) opens chapter 1 at the same page anchor. -->
+  <script is:inline>var m=location.pathname.match(/^\/(\d+)\/ch\/(\d+)\/?$/);if(m&&m[2]!=="1")location.replace("/"+m[1]+"/ch/1/"+location.hash);</script>
   <div class="narrow">
     <h1>পৃষ্ঠাটি পাওয়া যায়নি</h1>
     <p>আপনি যে পৃষ্ঠাটি খুঁজছেন সেটি নেই, অথবা সরিয়ে নেওয়া হয়েছে।</p>
